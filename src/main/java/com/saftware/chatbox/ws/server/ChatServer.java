@@ -12,20 +12,25 @@ import javax.websocket.Session;
 import javax.websocket.server.ServerEndpoint;
 
 import com.saftware.chatbox.ws.registry.UserSessionRegistry;
+import com.saftware.chatbox.ws.registry.UserTokenRegistry;
 
 @ServerEndpoint(value="/ws/chat")
 public class ChatServer {
 
 	
 	@OnOpen
-	public void onOpen(Session session) {
+	public void onOpen(Session session) throws IOException {
 		System.out.println("WebSocket opened: " + session.getId());
 		String queryString  = session.getQueryString();
 		Map<String, String> queryMap = parseQueryString(queryString);
 		String userName = queryMap.get("name");
-		boolean isMapped = UserSessionRegistry.mapUserWithSession(userName, session);
-		System.out.println(isMapped);
-		session.getUserProperties().put("userName", userName);
+		String token = queryMap.get("token");
+		if(validateRequest(token,userName)){
+			session.getUserProperties().put("userName", userName);
+			UserSessionRegistry.mapUserWithSession(userName, session);
+		}else{
+			session.close(new CloseReason(CloseReason.CloseCodes.VIOLATED_POLICY, "Not valid user"));
+		}
 		
 	}
 	@OnMessage
@@ -39,7 +44,7 @@ public class ChatServer {
 		if(toUserSession!=null){
 			System.out.println("Message sent to "+toUser);
 			toUserSession.getBasicRemote().sendText("From "+fromUser+" : "+message);
-			session.getBasicRemote().sendText("Sent to "+toUser+" :"+message);
+			session.getBasicRemote().sendText("To "+toUser+" :"+message);
 		}
 		else{
 			session.getBasicRemote().sendText(toUser+" is not active at the moment...");
@@ -59,6 +64,7 @@ public class ChatServer {
 		String[] entries = queryString.split("&");
 		for(String entry :  entries){
 			String[] parsedEntry = entry.split("=");
+			if(parsedEntry.length == 2)
 			outputMap.put(parsedEntry[0], parsedEntry[1]);
 		}
 		return outputMap;
@@ -67,5 +73,13 @@ public class ChatServer {
 	
 	private String[] parseMessage(String message){
 		return message.split(":");
+	}
+	
+	
+	private boolean validateRequest(String token,String userId){
+		if(UserTokenRegistry.getToken(userId).equals(token))
+			return true;
+		else
+			return false;
 	}
 }

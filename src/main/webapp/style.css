@@ -11,6 +11,19 @@ form, p, span {
   
 input { font:12px arial; }
   
+ul.user_list{
+    list-style-type: none;
+    list-style-position: inside;
+    background: #0ca3d2;
+    padding: 1px;
+    
+}
+ul.user_list li {
+    background: #cce5ff;
+    color: #404040;
+    
+    margin: 5px;
+}
 a {
     color:#0000FF;
     text-decoration:none; }
@@ -21,18 +34,29 @@ a {
     margin:0 auto;
     padding-bottom:25px;
     background:#EBF4FB;
-    width:504px;
+    width:554px;
     border:1px solid #ACD8F0; }
   
 #loginform { padding-top:18px; }
   
     #loginform p { margin: 5px; }
   
+  #active_users {
+    text-align:left;
+    margin:0 auto;
+    margin-left:10px;
+    padding:10px;
+    background:#fff;
+    height:251px;
+    width:50px;
+    border:1px solid #ACD8F0;
+    overflow:auto;
+    float:left }
 #chatbox {
     text-align:left;
     margin:0 auto;
     margin-bottom:25px;
-    padding:10px;
+    padding:1px;
     background:#fff;
     height:270px;
     width:430px;

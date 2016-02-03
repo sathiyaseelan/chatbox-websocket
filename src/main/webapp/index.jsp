@@ -1,72 +1,73 @@
 <!DOCTYPE HTML>
 <html>
-   <head>
-	
-      <script type="text/javascript">
-      
-      	var ws;
-      	function connect()
-      	{
-      		name = document.getElementById("name").value;
-      		
-      		if (name && !ws && "WebSocket" in window)
-            {
-               
-              // Let us open a web socket
-              ws = new WebSocket("ws://localhost:8080/ws/chat?name="+name);
-              
-            }else
-            	alert("Web socket is not supported or name is empty");
-      		
-      		ws.onopen = function()
-            {
-               // Web Socket is connected, send data using send()
-               alert("Connected");
-            };
+<head>
+<link type="text/css" rel="stylesheet" href="login.css" />
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3/jquery.min.js"></script>
+<script type="text/javascript">
+      function login_req(){
+    	  
+    	  
+    	  $(document).ready(function() {
+    		var  name = $("#name").val();
 				
-            ws.onmessage = function (evt) 
-            { 
-               var received_msg = evt.data;
-               document.getElementById("incoming_messages").innerHTML += "\n"+ received_msg;
-            };
-				
-            ws.onclose = function()
-            { 
-               // websocket is closed.
-               alert("Connection is closed...Please Reconnect...."); 
-            };
-         
-      		
-      	}
-      	
-      	function sendMessage(){
-      		
-      		message = document.getElementById("message").value;
-      		to_user = document.getElementById("to_user").value;
-      		ws.send(to_user+":"+message);	
-      	}
-             
-            
+				var request = $.ajax({
+					  url: "rest/login",
+					  type: "POST",
+					  data: JSON.stringify({userId :  $("#name").val() , password : $("#password").val() }),
+					  contentType: "application/json; charset=utf-8",
+					    dataType: "json",
+					  success: function (data) {
+						  	
+			             	if (data.status == true) {
+			             		var token = data.token;
+			             		$("#token").val(token);
+			             		$("#form1").submit();
+			             		//window.location.href = "/new_chat.jsp?token="+token+"&name="+name;
+			             	}else{
+			             		alert("Invalid Login");
+			             	}
+			            }
+					});
+    			
+    			});
+      }
          
       </script>
-		
-   </head>
-   <body>
-   
-      <div id="sse">
-      		
-      		<textarea id="incoming_messages" style="width:800px;height:500px">
-      		</textarea>
-      		<br/>
-      		<input type="text" id="name" placeholder="Enter your name"/><a href="javascript:connect()">Connect</a>
-      		<br/>
-      		<label for="to_user" >Send to</label>
-      		<input type="text" id="to_user"/>
-      		<label for="message" >Message</label>
-      		<input type="text" id="message"/>
-      		
-         <a href="javascript:sendMessage()">Send Message</a>
-      </div>
-      
-   </body>
+
+</head>
+<body>
+
+	<div class="container">
+		<div class="login">
+			<h1>Login</h1>
+			<form method="post" id="form1" action="/new_chat.jsp">
+				<p>
+					<input type="text" id="name" name="name" value=""
+						placeholder="Username or Email">
+				</p>
+				<p>
+					<input type="password" name="password" id="password" value=""
+						placeholder="Password">
+				</p>
+				<!-- <p class="remember_me">
+					<label> <input type="checkbox" name="remember_me"
+						id="remember_me"> Remember me on this computer
+					</label>
+					
+				</p> -->
+				<input type="hidden" name="token" id="token"/>
+				<p class="submit">
+					<input type="button" name="commit" value="Login" onclick="login_req()">
+				</p>
+			</form>
+		</div>
+
+		<div class="login-help">
+			<p>
+				Forgot your password? <a href="#">Click here to reset it</a>.
+			</p>
+		</div>
+	</div>
+
+</body>
 </html>

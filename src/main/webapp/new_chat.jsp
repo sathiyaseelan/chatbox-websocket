@@ -58,7 +58,24 @@
  
 		
 	}
-	
+	function logout(){
+		ws.close();
+		name = document.getElementById("name").value;
+		token = document.getElementById("token").value;
+		request = $.ajax({
+			  url: "rest/login?name="+name+"&token="+token,
+			  type: "GET",
+			  dataType: "json",
+			  success: function (data) {				  	
+				  		 
+	            },complete: function(e,xhr,settings){
+	            	if(e.status === 202){
+	            		window.location.href = "/index.jsp?action=logout";
+	                }
+	            }
+			});
+		
+	}
 	function sendMessage(){
 		
 		message = document.getElementById("usermsg").value;
@@ -89,9 +106,7 @@
 		
    	 
     }
-	function send(){
-		
-	}
+	
 	function set_to_user(to_user){
 		document.getElementById("to_user").value = to_user.innerText;
 	}
@@ -122,7 +137,7 @@
 			</p>
 			<!-- <p class="welcome"><input type="text" id="user_name"/></p> -->
 			<p class="logout">
-				<a id="exit" href="javascript:connect()">Exit Chat</a>
+				<a id="exit" href="javascript:logout()">Exit Chat</a>
 			</p>
 			<div style="clear: both"></div>
 		</div>
@@ -138,6 +153,7 @@
 
 		<form id="message_form" action="javascript:send();">
 
+				<input name="name" type="hidden" id="name" value="<%=session.getAttribute("name")%>"/> 
 				<input name="to_user" type="hidden" id="to_user" /> 
 			<input name="usermsg" type="text" id="usermsg" size="63"
 				placeholder="Message"  />

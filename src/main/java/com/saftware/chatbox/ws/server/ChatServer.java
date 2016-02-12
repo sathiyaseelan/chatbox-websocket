@@ -17,9 +17,11 @@ import com.saftware.chatbox.ws.registry.UserTokenRegistry;
 @ServerEndpoint(value="/ws/chat")
 public class ChatServer {
 
+	public static final long ONE_MINUTE = 1000 * 60;
 	
 	@OnOpen
 	public void onOpen(Session session) throws IOException {
+		session.setMaxIdleTimeout(ONE_MINUTE*5);
 		System.out.println("WebSocket opened: " + session.getId());
 		String queryString  = session.getQueryString();
 		Map<String, String> queryMap = parseQueryString(queryString);

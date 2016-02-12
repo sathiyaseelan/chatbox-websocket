@@ -55,7 +55,13 @@
 					</label>
 					
 				</p> -->
+				<%
+				if(request.getParameter("action")!=null && request.getParameter("action").equals("logout"))
+					session.removeAttribute("token");
+					session.removeAttribute("name");
+				%>
 				<input type="hidden" name="token" id="token"/>
+				
 				<p class="submit">
 					<input type="button" name="commit" value="Login" onclick="login_req()">
 				</p>

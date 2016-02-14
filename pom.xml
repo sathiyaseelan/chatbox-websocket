@@ -24,7 +24,12 @@
 	</build>
 
 	<dependencies>
-
+		<dependency>
+			<groupId>javax</groupId>
+			<artifactId>javaee-api</artifactId>
+			<version>7.0</version>
+			<scope>provided</scope>
+		</dependency>
 
 		<dependency>
 			<groupId>com.sun.jersey</groupId>
@@ -38,17 +43,10 @@
 			<version>1.8</version>
 		</dependency>
 		<!--Jetty dependencies start here -->
-		<dependency>
-			<groupId>org.eclipse.jetty</groupId>
-			<artifactId>jetty-server</artifactId>
-			<version>${jetty.version}</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.eclipse.jetty</groupId>
-			<artifactId>jetty-servlet</artifactId>
-			<version>${jetty.version}</version>
-		</dependency>
+		<!-- <dependency> <groupId>org.eclipse.jetty</groupId> <artifactId>jetty-server</artifactId> 
+			<version>${jetty.version}</version> </dependency> <dependency> <groupId>org.eclipse.jetty</groupId> 
+			<artifactId>jetty-servlet</artifactId> <version>${jetty.version}</version> 
+			</dependency> -->
 		<!--Jetty dependencies end here -->
 
 		<!--Jetty Websocket server side dependencies start here -->
@@ -56,19 +54,12 @@
 
 
 		<!--Jetty JSR-356 Websocket server side dependency -->
-		<dependency>
-			<groupId>org.eclipse.jetty.websocket</groupId>
-			<artifactId>javax-websocket-server-impl</artifactId>
-			<version>${jetty.version}</version>
-		</dependency>
+		<!-- <dependency> <groupId>org.eclipse.jetty.websocket</groupId> <artifactId>javax-websocket-server-impl</artifactId> 
+			<version>${jetty.version}</version> </dependency> -->
 
 		<!--Jetty Websocket API server side dependency -->
-		<dependency>
-			<groupId>org.eclipse.jetty.websocket</groupId>
-			<artifactId>websocket-server</artifactId>
-			<version>${jetty.version}</version>
-		</dependency>
-
+		<!-- <dependency> <groupId>org.eclipse.jetty.websocket</groupId> <artifactId>websocket-server</artifactId> 
+			<version>${jetty.version}</version> </dependency> -->
 
 		<!--Jetty Websocket server dependencies end here -->
 
@@ -77,18 +68,12 @@
 
 
 		<!--JSR-356 Websocket client side depencency -->
-		<dependency>
-			<groupId>org.eclipse.jetty.websocket</groupId>
-			<artifactId>javax-websocket-client-impl</artifactId>
-			<version>${jetty.version}</version>
-		</dependency>
+		<!-- <dependency> <groupId>org.eclipse.jetty.websocket</groupId> <artifactId>javax-websocket-client-impl</artifactId> 
+			<version>${jetty.version}</version> </dependency> -->
 
 		<!--Jetty Websocket API client side dependency -->
-		<dependency>
-			<groupId>org.eclipse.jetty.websocket</groupId>
-			<artifactId>websocket-client</artifactId>
-			<version>${jetty.version}</version>
-		</dependency>
+		<!-- <dependency> <groupId>org.eclipse.jetty.websocket</groupId> <artifactId>websocket-client</artifactId> 
+			<version>${jetty.version}</version> </dependency> -->
 		<!--Jetty Websocket client side dependencies end here -->
 
 	</dependencies>
